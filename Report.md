@@ -6,7 +6,7 @@
 
 [image3]: images/FixedQ.png "FixQ"
 
-[image4]: images/Result.png "Result"
+[image4]: images/result.png "Result"
 
 # Project 1: Navigation 
 
@@ -48,7 +48,7 @@ A list of graph here and also blah blah blah
 
 In file `dqn-agent.py`, there are 2 classes.
 
-Class `Agent`implements the Deep DQN[], which makes use of Experience Replay and Fixed Q-Targets 
+Class `Agent`implements the DQN, which makes use of Experience Replay and Fixed Q-Targets 
 
 Class `ReplayBuffer` store each step agent experienced. The data structure of the record is (state, action, reward, next_state)
 
@@ -67,7 +67,7 @@ The agent setup 2 neural network, one called local and one called target. All th
 
 File `model.py` implements the neural network used.
 
-The model consist of 3 hidden layers:
+The model consist of 3 fully connected layer.
 
 1st layer: Fully connected - 37 state variables and 64 outputs
 
