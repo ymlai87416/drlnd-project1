@@ -43,9 +43,6 @@ States have length: 37
 
 The algorithm used is Deep Q-Network [1], and here is technical implementation
 
-A list of graph here and also blah blah blah
-
-
 In file `dqn-agent.py`, there are 2 classes.
 
 Class `Agent`implements the DQN, which makes use of Experience Replay and Fixed Q-Targets 
