@@ -82,6 +82,7 @@ After training for 1000 episodes, the average score for 100 episode is around 15
 
 ![Reward plot][image4]
 
+You can also watch how the agent perform [link](https://youtu.be/e9D-HyelbTQ)
 
 ## Future works
 
