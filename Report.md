@@ -41,15 +41,25 @@ States have length: 37
 
 ## Algorithm
 
-The algorithm used is Deep Q-Network [1], and here is technical implementation
+The algorithm used is Deep Q-Network [1], and here I explain how to create a workable agent.
 
-In file `dqn-agent.py`, there are 2 classes.
+In file `dqn-agent.py`, there are 2 classes:
 
-Class `Agent`implements the DQN, which makes use of Experience Replay and Fixed Q-Targets 
+* Class `Agent`implements the DQN, which makes use of Experience Replay and Fixed Q-Targets 
 
-Class `ReplayBuffer` store each step agent experienced. The data structure of the record is (state, action, reward, next_state)
+* Class `ReplayBuffer` store each step agent experienced. The data structure of the record is (state, action, reward, next_state)
 
-For every 4 steps, random sampling from this buffer and pass it to a neural network to learn a better policy.
+    For every 4 steps, random experiences are sampled from this buffer and pass it to a neural network to learn a better policy.
+
+File `model.py` implements the neural network. Here is the network structure.
+
+```
+QNetwork(
+  (fc1): Linear(in_features=37, out_features=64, bias=True)
+  (fc2): Linear(in_features=64, out_features=64, bias=True)
+  (fc3): Linear(in_features=64, out_features=4, bias=True)
+)
+```
 
 ### Experience Replay
 
@@ -57,29 +67,57 @@ The buffer is set to a size of 100000, each time calling `sample()` returns a ba
 
 ### Fixed Q-Targets 
 
-The agent setup 2 neural network, one called local and one called target. All the neural network training is done in local, while target provides a stable TD target for optimizer to work.
+The agent creates 2 neural networks, a local network and a target network. All the training is done on the local network, while the target network provides a stable Temporal Difference target for the optimizer to work.
 
 ![Fixed Q Equation][image3]
 
 
-File `model.py` implements the neural network used.
+### Hyperparameters
 
-The model consist of 3 fully connected layer.
+Q network structure
 
-1st layer: Fully connected - 37 state variables and 64 outputs
+```
+QNetwork(
+  (fc1): Linear(in_features=37, out_features=64, bias=True)
+  (fc2): Linear(in_features=64, out_features=64, bias=True)
+  (fc3): Linear(in_features=64, out_features=4, bias=True)
+)
+```
 
-2nd layer: Fully connected - 64 inputs and 64 outputs
+Discount factor is of 𝛾 = 0.99.
 
-3rd layer: Fully connected - 64 inputs to 4 actions
+Training occurs at every 4 timesteps and the network is trained for 1 time. 
 
+Batch size = 64 experiences.
+
+Experience Reply buffer size = 100000.
+
+the learning rate is 5e-4.
+
+Soft update 𝜏 = 0.001.
+
+No weight decay on the network.
 
 ## Result
 
-After training for 1000 episodes, the average score for 100 episode is around 15.
+After training for 1000 episodes, the average score for 100 episodes is around 15.
 
 ![Reward plot][image4]
 
-You can also watch how the agent perform [link](https://youtu.be/e9D-HyelbTQ)
+```
+Episode 100	Average Score: 1.29
+Episode 200	Average Score: 4.03
+Episode 300	Average Score: 6.79
+Episode 400	Average Score: 9.59
+Episode 500	Average Score: 12.88
+Episode 600	Average Score: 14.02
+Episode 700	Average Score: 15.59
+Episode 800	Average Score: 15.55
+Episode 900	Average Score: 15.24
+Episode 1000	Average Score: 15.02
+```
+
+You can also watch how the agent performs [link](https://youtu.be/e9D-HyelbTQ)
 
 ## Future works
 
